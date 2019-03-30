@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas Example</title>
+	<style type="text/css">
+		canvas{
+			border: 1px solid black;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="canvas" width="1000vh" height="500vh">
+		(Canvas Alt-Text)
+	</canvas>
+
+<script>
+	var canvas = document.querySelector('canvas');
+	var ctx = canvas.getContext('2d');
+
+	var x = 0;
+	var y = 0;
+	var radius = 5;
+	var color = 'blue';
+
+	function drawCircle(){
+		ctx.beginPath();
+		ctx.fillStyle = color;
+		ctx.arc(x,y,radius,0,2*Math.PI);
+		ctx.fill();
+	}
+
+	function customColorChange(new_color){
+		console.log("New Color Value - Custom - Hex: ",new_color);
+		color=new_color;
+	}
+
+	// Handles tracing mouse movement and changing draw-values accordingly
+	window.addEventListener('mousemove', function(e) {
+
+		x = e.pageX;
+		y = e.pageY;
+		drawCircle();
+	})
+
+	// Handles response to key depression, coordinates coloration and canvas-reset responses
+	window.addEventListener('keydown', function(e) {
+
+		switch(e.key){
+
+			case "b":
+				console.log("Case_Blue");
+				color="blue";
+				break;
+
+			case "g":
+				console.log("Case_Green");
+				color="green";
+				break;
+
+			case "r":
+				console.log("Case_Red");
+				color="red";
+				break;
+
+			case "y":
+				console.log("Case_Yellow");
+				color="yellow";
+				break;
+
+			// Draw-Radius Cases
+			case "ArrowUp":
+				console.log("Case_ArrowUp: adjusting radius to: ",radius+1);
+				radius += 1;
+				break;
+			case "ArrowDown":
+				console.log("Case_ArrowDown: adjusting radius to: ",radius-1);
+				if(radius>1){
+					radius -=1;
+				}
+				else{
+					console.log("Would adjust to radius of zero; this is not permitted.")
+					console.log("Radial adjustment aborted.")
+				}
+				break;
+
+			case " ":
+				console.log("Why space-race when you can trigger the Space_Case?");
+
+				ctx.clearRect(0,0,canvas.width, canvas.height);
+				break;
+		}
+	})
+
+	window.addEventListener('touchmove', function(e) {
+
+
+		var touch_main = e.touches[0];
+		console.log("x:", touch_main.clientX, " - ", "y:", touch_main.clientY);
+		x = touch_main.clientX;
+		y = touch_main.clientY;
+		drawCircle();
+	})
+
+</script>
+
+	<div>
+		<input type="color" id="color_selector" value="#909090" onchange="customColorChange(value)">
+		<label for="draw_color">&lt;-- Select New Draw Color</label>
+	</div>
+</body>
+</html>
+
+<!--
+
+Steps:
+
+Create a canvas element with a border. The canvas should be about 80% the width and 80% height of the screen. If the window is dynamically resized, you do not need to resize the canvas, but if I use Inspect element to switch to different device size it should.
+
+Create a "pen" that moves with the mouse by drawing arcs. The default color should be red. If you move the mouse quickly the line will be choppy.
+
+Alternate the pen colors by hitting the pressing the "b" for blue, the "g" for green, the "r" for red, and the "y" for yellow.
+
+Use the up (larger) and down (smaller) arrow keys to change the radius of the pensize.  Make sure that the pen can never be set to 0 or less.
+
+Clear the canvas by using the space bar.
+
+React to touch events the same way you react to the mouse movements.
+
+On a mobile device changing the orientation should clear and resize the canvas. This may be tricky so do what you need to do to make it work. (It may be more dramatic than "clearing" the canvas.
+
+Add a color picker that allows the user to choose a different color. This won't work in Safari (on mobile), thats okay.
+
+-->
