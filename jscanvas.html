@@ -70,22 +70,21 @@
 
 			// Draw-Radius Cases
 			case "ArrowUp":
-				console.log("Case_ArrowUp: adjusting radius to: ",radius+1);
+				console.log("Adjusting radius to: ",radius+1);
 				radius += 1;
 				break;
 			case "ArrowDown":
-				console.log("Case_ArrowDown: adjusting radius to: ",radius-1);
+				console.log("Adjusting radius to: ",radius-1);
 				if(radius>1){
 					radius -=1;
 				}
 				else{
-					console.log("Would adjust to radius of zero; this is not permitted.")
-					console.log("Radial adjustment aborted.")
+					console.log("Radius aborted.")
 				}
 				break;
 
 			case " ":
-				console.log("Why space-race when you can trigger the Space_Case?");
+				console.log("Erasing the canvas");
 
 				ctx.clearRect(0,0,canvas.width, canvas.height);
 				break;
